@@ -1,17 +1,15 @@
+""" BaseRequestHandler class """
 from functools import wraps
 
 
 class BaseRequestHandler:
+    """Base request handler contains only decorator methods
+    so far and mapping of mapped implemented methods."""
 
     def __init__(self):
-        self._app_methods = dict()
-        self._app_methods['GET'] = dict()
-        self._app_methods['POST'] = dict()
-        self._app_methods['PUT'] = dict()
-        self._app_methods['DELETE'] = dict()
+        self._app_methods = {'GET': {}, 'POST': {}, 'PUT': {}, 'DELETE': {}}
 
-
-    def get(*args, **kwargs):
+    def get(self, **kwargs):
         """decorator method"""
 
         def inner(func):
@@ -19,12 +17,12 @@ class BaseRequestHandler:
             def wrapped_f(*args):
                 return func(*args)
 
-            args[0]._app_methods['GET'][kwargs['path']] = wrapped_f
+            self._app_methods['GET'][kwargs['path']] = wrapped_f
             return wrapped_f
 
         return inner
 
-    def post(*args, **kwargs):
+    def post(self, **kwargs):
         """decorator method"""
 
         def inner(func):
@@ -32,12 +30,12 @@ class BaseRequestHandler:
             def wrapped_f(*args):
                 return func(*args)
 
-            args[0]._app_methods['POST'][kwargs['path']] = wrapped_f
+            self._app_methods['POST'][kwargs['path']] = wrapped_f
             return wrapped_f
 
         return inner
 
-    def put(*args, **kwargs):
+    def put(self, **kwargs):
         """decorator method"""
 
         def inner(func):
@@ -45,12 +43,12 @@ class BaseRequestHandler:
             def wrapped_f(*args):
                 return func(*args)
 
-            args[0]._app_methods['PUT'][kwargs['path']] = wrapped_f
+            self._app_methods['PUT'][kwargs['path']] = wrapped_f
             return wrapped_f
 
         return inner
 
-    def delete(*args, **kwargs):
+    def delete(self, **kwargs):
         """decorator method"""
 
         def inner(func):
@@ -58,7 +56,7 @@ class BaseRequestHandler:
             def wrapped_f(*args, **kwargs):
                 return func(*args, **kwargs)
 
-            args[0]._app_methods['DELETE'][kwargs['path']] = wrapped_f
+            self._app_methods['DELETE'][kwargs['path']] = wrapped_f
             return wrapped_f
 
         return inner

@@ -1,6 +1,6 @@
-from deta_str.services.deta_base_service import BaseModel
 from dataclasses import dataclass
-from typing import Union, Any, Optional
+
+from deta_str.services.deta_base_service import BaseModel
 
 
 @dataclass(kw_only=True, frozen=True)
