@@ -1,15 +1,20 @@
-import yaml, os, sys
+"""Load configuration"""
+import os
 from os.path import exists
+
+import yaml
 
 
 class YamlReader:
+    """reader expects file app_config.yaml in root directory"""
     _properties: dict = None
     _DEFAULT_FILE_LOCATION: str = "../app_config.yaml"
 
     @staticmethod
     def get_configuration() -> dict:
 
-        properties_location = os.path.join(os.path.dirname(__file__), YamlReader._DEFAULT_FILE_LOCATION)
+        properties_location = os.path.join(os.path.dirname(__file__),
+                                           YamlReader._DEFAULT_FILE_LOCATION)
 
         if YamlReader._properties is None or not exists(properties_location):
 

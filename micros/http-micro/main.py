@@ -1,10 +1,11 @@
-from asgi import request_handler as rh
-from deta import Deta
-from asgi.models.response import Response
-from asgi.models.request import Request
 import datetime
-from utils.property_reader import YamlReader
 
+from deta import Deta
+
+from asgi import request_handler as rh
+from asgi.models.request import Request
+from asgi.models.response import Response
+from utils.property_reader import YamlReader
 
 app_configuration = YamlReader.get_configuration()
 deta_client = Deta(project_key=app_configuration['deta']['project']['key'], project_id=app_configuration['deta']['project']['id'])

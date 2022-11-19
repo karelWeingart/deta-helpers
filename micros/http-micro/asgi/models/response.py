@@ -1,8 +1,9 @@
-from typing import Callable, List, Tuple, Generator
 import json
 from dataclasses import asdict, is_dataclass
-from asgi.utils.media_types import get_media_type
+from typing import Callable, List, Tuple, Generator
+
 from asgi.models.request import Request
+from asgi.utils.media_types import get_media_type
 
 
 class Response:
