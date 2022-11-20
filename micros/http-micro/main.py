@@ -1,3 +1,4 @@
+"""main file: app is instantied here"""
 import datetime
 
 from deta import Deta
@@ -5,10 +6,14 @@ from deta import Deta
 from asgi import request_handler as rh
 from asgi.models.request import Request
 from asgi.models.response import Response
-from utils.property_reader import YamlReader
+from utils.property_reader import get_configuration
 
-app_configuration = YamlReader.get_configuration()
-deta_client = Deta(project_key=app_configuration['deta']['project']['key'], project_id=app_configuration['deta']['project']['id'])
+app_configuration = get_configuration()
+if app_configuration:
+    deta_client = Deta(project_key=app_configuration['deta']['project']['key'],
+                       project_id=app_configuration['deta']['project']['id'])
+else:
+    deta_client = Deta()
 web_drive = deta_client.Drive("web")
 
 
@@ -17,6 +22,7 @@ app = rh.RequestHandler()
 
 @app.put(path="/test-put")
 async def put_test(request: Request, response: Response):
+    """just test of put method"""
     service = deta_client.Base(name="test-put")
     data = request.dict_body
     res = service.put(data)
@@ -25,6 +31,7 @@ async def put_test(request: Request, response: Response):
 
 @app.get(path="/test-get")
 async def get_test(request: Request, response: Response):
+    """just test of get method"""
     service = deta_client.Base(name="test-get-new-framework")
     key = "11"
     res = service.get(key)
@@ -33,12 +40,14 @@ async def get_test(request: Request, response: Response):
 
 @app.get(path="/test/{path_parameter}/somevalue/{second_value}")
 async def path_parameters_test(request: Request, response: Response):
+    """just test of path parameters"""
     print(request.path_parameters)
     await response.send("ok")
 
 
 @app.get(path="/deta_fetch")
 async def deta_fetch_test(request: Request, response: Response):
+    """just test of fetch from deta base"""
     service = deta_client.Base(name="fetch-example-table")
     from_epoch = datetime.datetime.now() - datetime.timedelta(minutes=600)
     query = {"created?gt": int(from_epoch.timestamp())}
@@ -47,6 +56,7 @@ async def deta_fetch_test(request: Request, response: Response):
 
 @app.get(path="/{resource:path}")
 async def resources(request: Request, response: Response):
+    """resource proxy to drive"""
     resource = request.path
     if not request.path or request.path == "/":
         resource = "index.html"
