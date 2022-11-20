@@ -58,7 +58,7 @@ class Response:
     async def _send_body(self, body: str, more_body=False):
         await self._send({
             'type': 'http.response.body',
-            'body': body if isinstance(body) == bytes else body.encode("utf-8"),
+            'body': body if isinstance(body, bytes) else body.encode("utf-8"),
             'more_body': more_body,
         })
 
