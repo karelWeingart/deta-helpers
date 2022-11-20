@@ -20,5 +20,5 @@ def get_configuration() -> dict:
                 _properties = yaml.safe_load(stream)
             except yaml.YAMLError as exception:
                 print(exception)
-
-    return _properties
+        return _properties
+    return {}
